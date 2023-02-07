@@ -4,11 +4,11 @@ import java.time.LocalDateTime;
 
 public class ArticleComment {
     private Long id;
-    private String article;
-    private String hashtag;
+    private String article; //게시글(ID)
+    private String hashtag; //본문
 
-    private LocalDateTime createdAt;
-    private String createBy;
-    private LocalDateTime modifiedAt;
-    private String modifiedBy;
+    private LocalDateTime createdAt; //생성일시
+    private String createBy; // 생성자
+    private LocalDateTime modifiedAt; //수정일시
+    private String modifiedBy; //수정자
 }
