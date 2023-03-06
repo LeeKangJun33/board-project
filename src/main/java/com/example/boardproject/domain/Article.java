@@ -8,18 +8,22 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @ToString
 @Table(indexes = {
         @Index(columnList = "title"),
-        @Index(columnList = "thastag"),
+        @Index(columnList = "hashtag"),
         @Index(columnList = "createdAt"),
         @Index(columnList = "createdBy")
 })
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 public class Article {
 
@@ -33,9 +37,15 @@ public class Article {
 
     @Setter private String hashtag; // 해시태그
 
+    @ToString.Exclude
+    @OrderBy("id")
+    @OneToMany(mappedBy = "article",cascade = CascadeType.ALL)
+    private final Set<ArticleComment> articleComments = new LinkedHashSet<>(); //중복허용x
+
+
 
     @CreatedDate @Column(nullable = false) private LocalDateTime createdAt; // 생성일시
-    @CreatedBy @Column(nullable = false,length = 100) private String createBy; //생성자
+    @CreatedBy @Column(nullable = false,length = 100) private String createdBy; //생성자
     @LastModifiedDate @Column(nullable = false) private LocalDateTime modifiedAt; //수정일시
     @LastModifiedBy @Column(nullable = false,length = 100) private String modifiedBy; // 수정자
 
